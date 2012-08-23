@@ -233,7 +233,10 @@ class ListsController extends Controller
 	
 	/*
 	 * 榜单标题搜索
-	 * 
+	 * keyword	搜索关键字
+	 * ordertime	时间排序
+	 * orderzan	热度排序
+	 * orderrank	推荐排序
 	 */
 	public function titleSearchAction()
 	{
@@ -244,22 +247,29 @@ class ListsController extends Controller
 		header("Content-Type: text/html; charset=UTF-8");
 		
 		$keyword = $this->getParam("keyword");
+		$ordertime = $this->getParam("ordertime");//时间排序
+		$orderzan = $this->getParam("orderzan");//热度排序
+		$orderrank = $this->getParam("orderrank");//推荐排序
 		
 		if(!$keyword){
 			exit;
 		}
-		$fields	= '';
-		//列表
-// 		$lists = $this->lists->listAllWithFields($fields,array("title"=>$keyword));
-		
-// 		if($lists == null)
-// 		{
-// 			exit;
-// 		}
-		
-		////		
+					
 		//列表
 		$where = "title like '%$keyword%'";
+		$order 		= array('rank desc');
+		if($ordertime)
+		{
+			$order = array('updatetime desc');
+		}
+		if($orderzan)
+		{
+			$order = array('zannum desc');
+		}
+		if($orderrank)
+		{
+			$order = array('rank desc');
+		}
 
 		$count 		= $this->lists->listCount($where);
 		$pageSize 	= 10;
@@ -268,7 +278,7 @@ class ListsController extends Controller
 		if($pagecount < $page){
 			echo "";exit;
 		}
-		$order 		= array('rank asc');
+	
 		$fields = "id,title,cover,zannum ";
 		$this->view->paging = $this->getPaging($count , $pageSize , $pageId);
 		$lists = $this->lists->listPageWithFields($fields, $where , $order , $pageSize , $pageId);
@@ -277,9 +287,10 @@ class ListsController extends Controller
 			$lists[$i]['cover'] = IMAGE_DOMAIN.$lists[$i]['cover'];
 			$lists[$i]['link'] = DOMAIN."?m=lists&a=detail&id=".$lists[$i]['id'];
 		}
-		print_r($lists);
+		
+		echo $this->customJsonEncode($lists);
 		exit;
-		////
+		
 	}
 
 	
