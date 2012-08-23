@@ -287,8 +287,14 @@ class ListsController extends Controller
 			$lists[$i]['cover'] = IMAGE_DOMAIN.$lists[$i]['cover'];
 			$lists[$i]['link'] = DOMAIN."?m=lists&a=detail&id=".$lists[$i]['id'];
 		}
-		
-		echo $this->customJsonEncode($lists);
+		$data['page'] = array(
+				'count'=>$count,
+				'pageSize'=>$pageSize,
+				'pagecount'=>$pagecount,
+				'page'=>$page
+				);
+		$data['lists'] = $lists;
+		echo $this->customJsonEncode($data);
 		exit;
 		
 	}
