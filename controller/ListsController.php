@@ -264,7 +264,7 @@ class ListsController extends Controller
 	}
 	
 	/*
-	 * 榜单标题搜索
+	 * 榜单标题内容搜索
 	 * keyword	搜索关键字
 	 * ordertime	时间排序
 	 * orderzan	热度排序

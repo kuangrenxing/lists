@@ -70,7 +70,7 @@ class MyitemController extends Controller
 	
 	/**
 	 * 单品分类
-	 *
+	 *?m=myitem&a=myitencat
 	 */
 	public function myitencatAction(){
 		$this->config['layoutEnabled'] = false;
@@ -90,7 +90,7 @@ class MyitemController extends Controller
 				7 => array('id' => 97 , 'name' => '帽子')
 		);
 	
-		echo customJsonEncode($arr);
+		echo $this->customJsonEncode($arr);
 	
 		exit;
 	}
