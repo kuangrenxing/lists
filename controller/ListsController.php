@@ -288,7 +288,7 @@ class ListsController extends Controller
 		}
 					
 		//列表
-		$where = "title like '%$keyword%'";
+		$where = "title like '%$keyword%' or content like '%$keyword%'";
 		$order 		= array('rank desc');
 		if($ordertime)
 		{
@@ -326,6 +326,8 @@ class ListsController extends Controller
 				'page'=>$page
 				);
 		$data['lists'] = $lists;
+		print_r($data);
+		exit;
 		echo $this->customJsonEncode($data);
 		exit;
 		
