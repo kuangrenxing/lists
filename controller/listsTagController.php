@@ -67,6 +67,27 @@ class listsTagController extends Controller
 		echo $this->customJsonEncode($listsList);
 		exit;
 	}
+	/*
+	 * 榜单分类
+	*/
+	
+	public function taglitsAction()
+	{
+		$this->config['layoutEnabled'] = false;
+		$this->config['viewEnabled'] = false;
+		
+		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
+		header("Content-Type: text/html; charset=UTF-8");
+		
+		//榜单分类
+		$listTag = array(
+				'分类1','分类2','分类3','分类4','分类5','分类6','分类7','分类8','分类9',
+		);
+		echo $this->customJsonEncode($listTag);
+	
+		exit;
+	}
+	
 	
 	/*
 	 * 根据分类搜索获取榜单列表
