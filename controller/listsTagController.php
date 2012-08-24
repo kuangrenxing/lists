@@ -3,10 +3,14 @@ Globals::requireClass('Controller');
 
 Globals::requireTable('ListsTag');
 Globals::requireTable('Lists');
+Globals::requireTable('Tag');
 
 class listsTagController extends Controller
 {
 	protected $brand;
+	protected $lists;
+	protected $listsTag;
+	protected $tag;
 	
 	public static $defaultConfig = array(
 		'viewEnabled'	=> true,
@@ -19,6 +23,7 @@ class listsTagController extends Controller
 		parent::__construct($config);
 		$this->lists 	= new ListsTable($config);
 		$this->listsTag 	= new ListsTagTable($config);
+		$this->tag = new TagTable($config);
 	}
 	
 	/*
@@ -62,6 +67,63 @@ class listsTagController extends Controller
 		echo $this->customJsonEncode($listsList);
 		exit;
 	}
+	
+	/*
+	 * 根据分类搜索获取榜单列表
+	* 
+	* 
+	*/
+	public function typeSearchAction()
+	{
+		$this->config['layoutEnabled'] = false;
+		$this->config['viewEnabled'] = false;
+	
+		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
+		header("Content-Type: text/html; charset=UTF-8");
+	
+		$keyword = $this->getParam('keyword');
+		
+		if($keyword == false){
+			exit;
+		}
+		//得到tag id
+		$tagIdArr="";
+		$tagFields = "id, name";
+		$TagWhere = "name like '%$keyword%'";
+		$tag = $this->tag->listAllWithFields($tagFields,$TagWhere);
+		
+		foreach ($tag as $tagname)
+		{
+			$tagIdArr[]=$tagname['id'];
+		}
+		$tagId=implode(',', $tagIdArr);	
+	
+
+		$where = "tag_id in($tagId)";
+		//得到lists id
+		$tagList = $this->listsTag->listAll($where);
+		if(!$tagList){
+			exit;
+		}
+		
+		$fields = "id, title, uid, content, cover, zannum";
+		$order = "rank desc, createtime desc";
+	
+		$listsIds="";
+		foreach($tagList as $listsId){
+			$listsIdArr[] = $listsId['lists_id'];
+		}
+		$listsIds = implode(",", $listsIdArr);
+	
+		//in $listsIdArr 查询
+		$where = "id in ({$listsIds})";
+	
+		$listsList = $this->lists->listAllWithFields($fields, $where, $order);
+	
+		echo $this->customJsonEncode($listsList);
+		exit;
+	}
+	
 	
 	protected function out()
 	{

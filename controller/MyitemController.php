@@ -43,7 +43,7 @@ class MyitemController extends Controller
 			exit;
 		}
 		
-		$fieldsMyitem = "id,price,summary,img_url";
+		$fieldsMyitem = "id,title,price,summary,img_url";
 		$myitem = $this->myitem->getRowWithFields($fieldsMyitem, $id);
 		if(!$myitem)
 		{
@@ -66,6 +66,61 @@ class MyitemController extends Controller
 		echo $this->customJsonEncode($myitem);				
 		exit;
 	}
+	
+	
+	/**
+	 * 单品分类
+	 *
+	 */
+	public function myitencatAction(){
+		$this->config['layoutEnabled'] = false;
+		$this->config['viewEnabled'] = false;
+	
+		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
+		header("Content-Type: text/html; charset=UTF-8");
+	
+		$arr = array(
+				0 => array('id' => 73 , 'name' => '背心'),
+				1 => array('id' => 1582 , 'name' => 'T恤'),
+				2 => array('id' => 1774 , 'name' => '短裤'),
+				3 => array('id' => 649 , 'name' => '凉鞋'),
+				4 => array('id' => 1175 , 'name' => '短裙'),
+				5 => array('id' => 2125 , 'name' => '挎包'),
+				6 => array('id' => 30 , 'name' => '连衣裙'),
+				7 => array('id' => 97 , 'name' => '帽子')
+		);
+	
+		echo customJsonEncode($arr);
+	
+		exit;
+	}
+	
+	/**
+	 * 热门单品tag
+	 */
+	public function myitentopAction(){
+		$this->config['layoutEnabled'] = false;
+		$this->config['viewEnabled'] = false;
+	
+		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
+		header("Content-Type: text/html; charset=UTF-8");
+	
+		$arr = array(
+				0 => array('id' => 196 , 'name' => '性感'),
+				1 => array('id' => 2686 , 'name' => '职场'),
+				2 => array('id' => 1830 , 'name' => '糖果色'),
+				3 => array('id' => 1884 , 'name' => '长裙'),
+				4 => array('id' => 208 , 'name' => '甜美'),
+				5 => array('id' => 1895 , 'name' => '摩登'),
+				6 => array('id' => 2697 , 'name' => '显瘦'),
+				7 => array('id' => 423 , 'name' => '欧美')
+		);
+	
+		echo customJsonEncode($arr);
+	
+		exit;
+	}
+	
 	
 	/*
 	 * 单品增加赞

@@ -84,8 +84,40 @@ class ListsController extends Controller
 		exit;
 	}
 	
+	
+	
 	/*
-	 * 创建榜单
+	 * 创建榜单提供榜单图片与分类
+	 * ?m=lists&a=createProvide
+	 */
+	public function createProvideAction()
+	{
+		$this->config['layoutEnabled'] = false;
+		$this->config['viewEnabled'] = false;
+		
+		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
+		header("Content-Type: text/html; charset=UTF-8");
+		
+		//图片列表		
+		$lists = $this->lists->listAllWithFields('cover','','id desc',6);
+		foreach($lists as $i=>$list)
+		{
+			$lists[$i]['cover'] = IMAGE_DOMAIN.$lists[$i]['cover'];
+		}
+		//榜单分类
+		$listTag = array(
+				'分类1','分类2','分类3','分类4','分类5','分类6','分类7','分类8','分类9',
+				);
+		
+		$data['image'] = $lists;
+		$data['listTag'] = $listTag;
+		echo $this->customJsonEncode($data);
+		exit;
+	}
+	
+	
+	/*
+	 * 进行创建榜单
 	 * ?m=lists&a=create&title=title1&uid=2&content=this%20content&cover=img.jpg&prodnum=12444&status=1
 	 * title	标题
 	 * uid		用户Id	
