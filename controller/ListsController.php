@@ -181,7 +181,7 @@ class ListsController extends Controller
 			$prodIdArr[] = $listsProd['prod_id'];	
 		}
 		$scope = implode(",", $prodIdArr);
-		$where = "id in ({$scope})";
+		$where = "id in ({$scope}) and price>0 and  maincat_id!=3 and subcat_id!=31";
 		
 		$fileds = "id, title, price, img_url";		
 

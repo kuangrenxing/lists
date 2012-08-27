@@ -48,22 +48,27 @@ class MytagController extends Controller
 		
 		$fields="my_id";
 		$order = "id desc";
-		$count = $this->mytag->listCount($whereMytag);
-		$pageSize = 24;//12条一页		
-		$paging = $this->getPaging($count, $pageSize, $pageId, 3);		
-		$mytagArr = $this->mytag->listPageWithFields($fields,$whereMytag, $order, $pageSize, $pageId);
-		
+// 		$count = $this->mytag->listCount($whereMytag);
+// 		$pageSize = 100000;//12条一页		
+// 		$paging = $this->getPaging($count, $pageSize, $pageId, 3);		
+// 		$mytagArr = $this->mytag->listPageWithFields($fields,$whereMytag, $order, $pageSize, $pageId);
+		$mytagArr = $this->mytag->listAllWithFields($fields,$whereMytag,$order);
 		
 		foreach($mytagArr as $i=>$mytag){
 			$myid[] = $mytag['my_id'];
 		}
 		
 		$in = implode(",", $myid);
-		$whereMyitem = "id in($in)";		
+		$whereMyitem = "id in($in)  ";		
 		// 得到单品信息
-		$fieldsMyitem = "id,uid,maincat_id,subcat_id,third_id,type,title,price,discount,img_url,source_site_url,source_img_url,tags,summary,favor,likenum";
-		$myitem = $this->myitem->listAllWithFields($fieldsMyitem, $whereMyitem);
+		$fieldsMyitem = "id,uid,ow,oh,maincat_id,subcat_id,third_id,type,title,price,discount,img_url,source_site_url,source_img_url,tags,summary,favor,likenum";
 		
+		
+		$count = $this->myitem->listCount($whereMyitem);
+		$pageSize = 20;//12条一页
+		$paging = $this->getPaging($count, $pageSize, $pageId, 3);
+// 		$myitem = $this->myitem->listAllWithFields($fieldsMyitem, $whereMyitem);
+		$myitem = $this->myitem->listPageWithFields($fieldsMyitem,$whereMyitem, $order, $pageSize, $pageId);
 		foreach($myitem as $i=>$v)
 		{
 			$myitem[$i]['img_url'] = IMAGE_DOMAIN.$myitem[$i]['img_url'];

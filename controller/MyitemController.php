@@ -38,6 +38,8 @@ class MyitemController extends Controller
 		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
 		header("Content-Type: text/html; charset=UTF-8");
 		
+		$BUY_URL = "http://appleapi.tuolar.com/iphoneAppwfs/";
+		
 		$id = $this->getIntParam("id");
 		if(!$id){
 			exit;
@@ -52,6 +54,7 @@ class MyitemController extends Controller
 		else 
 		{			
 			$myitem['img_url'] = IMAGE_DOMAIN.$myitem['img_url'];
+			$myitem['source_site_url'] = $BUY_URL."?m=go&id=".$myitem['id'];
 			$myitem['myid'] = $myitem['id'];
 			unset($myitem['id']);
 		}
@@ -89,8 +92,8 @@ class MyitemController extends Controller
 				6 => array('id' => 30 , 'name' => '连衣裙'),
 				7 => array('id' => 97 , 'name' => '帽子')
 		);
-	
-		echo $this->customJsonEncode($arr);
+		$data['data'] = $arr;
+		echo $this->customJsonEncode($data);
 	
 		exit;
 	}
