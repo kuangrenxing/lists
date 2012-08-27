@@ -41,7 +41,7 @@ class listsTagController extends Controller
 	
 	/*
 	 * 根据分类获取榜单列表
-	 * ?m=listsTag&a=getlist&tag_id=分类2
+	 * ?m=listsTag&a=getlist&tag_word=分类2
 	 * tag_id	榜单tagid 
 	 */
 	public function getListAction()
@@ -52,15 +52,15 @@ class listsTagController extends Controller
 		header('P3P: CP="CURa ADMa DEVa PSAo PSDo OUR BUS UNI PUR INT DEM STA PRE COM NAV OTC NOI DSP COR"');
 		header("Content-Type: text/html; charset=UTF-8");
 		
-		$tag_id = $this->getParam('tag_id');
+		$tag_word = $this->getParam('tag_word');
 		
-		if($tag_id == false){
+		if($tag_word == false){
 			exit;
 		}
 		
 		$listTag = $this->listTag;		
-		$tag_id = array_search($tag_id, $listTag);
-		//print_r($tag_id);exit;
+		$tag_id = array_search($tag_word, $listTag);
+		
 		if(empty($tag_id))
 		{
 			exit;
@@ -90,6 +90,7 @@ class listsTagController extends Controller
 	}
 	/*
 	 * 榜单分类
+	 * ?m=listsTag&a=taglits
 	*/
 	
 	public function taglitsAction()
@@ -101,7 +102,7 @@ class listsTagController extends Controller
 		header("Content-Type: text/html; charset=UTF-8");
 		
 		//榜单分类
-		$listTag = $this->listsTag;
+		$listTag = $this->listTag;
 		echo $this->customJsonEncode($listTag);
 	
 		exit;

@@ -49,7 +49,7 @@ class MytagController extends Controller
 		$fields="my_id";
 		$order = "id desc";
 		$count = $this->mytag->listCount($whereMytag);
-		$pageSize = 12;//12条一页		
+		$pageSize = 24;//12条一页		
 		$paging = $this->getPaging($count, $pageSize, $pageId, 3);		
 		$mytagArr = $this->mytag->listPageWithFields($fields,$whereMytag, $order, $pageSize, $pageId);
 		
@@ -61,14 +61,25 @@ class MytagController extends Controller
 		$in = implode(",", $myid);
 		$whereMyitem = "id in($in)";		
 		// 得到单品信息
-		$fieldsMyitem = "id,uid,maincat_id,subcat_id,third_id,type,title,price,discount,img_url,ow,oh,source_site_url,source_img_url,tags,color,site_name,summary,favor,likenum,time_created";
+		$fieldsMyitem = "id,uid,maincat_id,subcat_id,third_id,type,title,price,discount,img_url,source_site_url,source_img_url,tags,summary,favor,likenum";
 		$myitem = $this->myitem->listAllWithFields($fieldsMyitem, $whereMyitem);
+		
+		foreach($myitem as $i=>$v)
+		{
+			$myitem[$i]['img_url'] = IMAGE_DOMAIN.$myitem[$i]['img_url'];
+		}
 		
 		if(!$myitem){
 			exit;
 		}
 		
-		echo $this->customJsonEncode($myitem);
+		$data['page'] = array(
+				'count'=>$count,
+				'pageSize'=>$pageSize,
+				'page'=>$page,
+				);
+		$data['list'] = $myitem;
+		echo $this->customJsonEncode($data);
 	
 		exit;
 	}
