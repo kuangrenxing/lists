@@ -42,7 +42,7 @@ class listsTagController extends Controller
 	/*
 	 * 根据分类获取榜单列表
 	 * ?m=listsTag&a=getlist&tag_word=分类2
-	 * tag_id	榜单tagid 
+	 * tag_id	榜单词 
 	 */
 	public function getListAction()
 	{
@@ -84,8 +84,12 @@ class listsTagController extends Controller
 		$where = "id in ({$listsIds})";
 
 		$listsList = $this->lists->listAllWithFields($fields, $where, $order);
-		
-		echo $this->customJsonEncode($listsList);
+		foreach($listsList as $i=>$v)
+		{
+			$listsList[$i]['cover'] = IMAGE_DOMAIN.$listsList[$i]['cover'];
+		}
+		$data['list'] = $listsList;
+		echo $this->customJsonEncode($data);
 		exit;
 	}
 	/*
