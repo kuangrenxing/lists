@@ -32,7 +32,10 @@ class ListsRecommController extends Controller
 		
 		$fieldsList = "id, title, lists_id, links, cover, rank";
 		$list = $this->listsRecomm->listAllWithFields($fieldsList, null, 'rank desc');
-		
+		foreach ($list as $i=>$v)
+		{
+			$list[$i]['cover'] = IMAGE_DOMAIN.$list[$i]['cover'];
+		}
 		echo $this->customJsonEncode($list);
 		
 		exit;
