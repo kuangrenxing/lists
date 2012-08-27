@@ -26,9 +26,22 @@ class listsTagController extends Controller
 		$this->tag = new TagTable($config);
 	}
 	
+	//榜单分类
+	public $listTag = array(
+			0=>'分类1',
+			1=>'分类2',
+			2=>'分类3',
+			3=>'分类4',
+			4=>'分类5',
+			5=>'分类6',
+			6=>'分类7',
+			7=>'分类8',
+			8=>'分类9',
+	);
+	
 	/*
 	 * 根据分类获取榜单列表
-	 * ?m=listsTag&a=getlist&tag_id=1
+	 * ?m=listsTag&a=getlist&tag_id=分类2
 	 * tag_id	榜单tagid 
 	 */
 	public function getListAction()
@@ -40,17 +53,25 @@ class listsTagController extends Controller
 		header("Content-Type: text/html; charset=UTF-8");
 		
 		$tag_id = $this->getParam('tag_id');
+		
 		if($tag_id == false){
 			exit;
-		}		
-
+		}
+		
+		$listTag = $this->listTag;		
+		$tag_id = array_search($tag_id, $listTag);
+		//print_r($tag_id);exit;
+		if(empty($tag_id))
+		{
+			exit;
+		}
 		//得到lists id
 		$tagList = $this->listsTag->listAll(array('tag_id'=>$tag_id));
 		if(!$tagList){		
 			exit;
 		}
 
-		$fields = "id, title, uid, content, cover, zannum, prodnum, createtime";
+		$fields = "id, title, uid, content, cover, zannum, prodnum";
 		$order = "rank desc, createtime desc";
 		
 		$listsIds="";
@@ -80,9 +101,7 @@ class listsTagController extends Controller
 		header("Content-Type: text/html; charset=UTF-8");
 		
 		//榜单分类
-		$listTag = array(
-				'分类1','分类2','分类3','分类4','分类5','分类6','分类7','分类8','分类9',
-		);
+		$listTag = $this->listsTag;
 		echo $this->customJsonEncode($listTag);
 	
 		exit;
