@@ -269,6 +269,7 @@ class ListsController extends Controller
 	 * ordertime	时间排序
 	 * orderzan	热度排序
 	 * orderrank	推荐排序
+	 * ?m=lists&a=titleSearch&keyword=con
 	 */
 	public function titleSearchAction()
 	{
@@ -326,8 +327,7 @@ class ListsController extends Controller
 				'page'=>$page
 				);
 		$data['lists'] = $lists;
-		print_r($data);
-		exit;
+		
 		echo $this->customJsonEncode($data);
 		exit;
 		
